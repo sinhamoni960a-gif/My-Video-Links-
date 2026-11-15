@@ -1,1 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Video Link</title>
 
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#090f1c;
+color:white;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:480px;
+background:#151e30;
+padding:28px;
+border-radius:20px;
+box-shadow:0 10px 40px #0008;
+}
+
+h1{text-align:center;color:#65a5ff}
+.subtitle{text-align:center;color:#aab5c8}
+
+label{display:block;margin:20px 0 8px}
+
+input{
+width:100%;
+padding:14px;
+border:1px solid #394761;
+border-radius:10px;
+background:#0b1424;
+color:white;
+outline:none;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:0;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+background:#3987ff;
+color:white;
+}
+
+.result{
+margin-top:20px;
+padding:15px;
+background:#0b1424;
+border-radius:10px;
+overflow-wrap:anywhere;
+display:none;
+}
+
+.secondary{
+background:#243650;
+}
+
+.hidden{display:none}
+
+.note{
+text-align:center;
+color:#9ba9bd;
+font-size:12px;
+margin-top:25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="builder">
+
+<h1>Smart Video Link</h1>
+<p class="subtitle">Create Your Custom Video Link</p>
+
+<label>Adsterra Direct Link</label>
+<input id="ad" type="url"
+placeholder="Paste your Ad Link">
+
+<label>Main Video Link</label>
+<input id="video" type="url"
+placeholder="Paste your Video Link">
+
+<button onclick="generate()">
+Generate Combined Link
+</button>
+
+<div class="result" id="result">
+<p>Your Combined Link:</p>
+<div id="output"></div>
+<button class="secondary" onclick="copyLink()">
+Copy Link
+</button>
+</div>
+
+</div>
+
+<div id="viewer" class="hidden">
+
+<h1>Your Video Is Ready!</h1>
+
+<p class="subtitle">
+Support this page by visiting our sponsor.
+</p>
+
+<button onclick="visitAd()">
+Visit Sponsor
+</button>
+
+<button class="secondary" onclick="watchVideo()">
+▶ WATCH VIDEO
+</button>
+
+<p class="note">
+Sponsored links are optional.
+</p>
+
+</div>
+
+<p class="note">Smart Video Link System</p>
+
+</div>
+
+<script>
+
+let mainVideo="";
+let sponsor="";
+
+function validURL(value){
+try{
+let u=new URL(value);
+return u.protocol==="https:" || u.protocol==="http:";
+}catch(e){
+return false;
+}
+}
+
+function generate(){
+
+let ad=document.getElementById("ad").value.trim();
+let video=document.getElementById("video").value.trim();
+
+if(!validURL(ad) || !validURL(video)){
+alert("Please enter two valid links.");
+return;
+}
+
+let link=new URL(window.location.href);
+link.searchParams.set("ad",ad);
+link.searchParams.set("video",video);
+
+document.getElementById("output").textContent=link.href;
+document.getElementById("result").style.display="block";
+
+}
+
+function copyLink(){
+navigator.clipboard.writeText(
+document.getElementById("output").textContent
+).then(()=>alert("Link Copied!"));
+}
+
+function visitAd(){
+if(validURL(sponsor)){
+window.open(sponsor,"_blank","noopener");
+}
+}
+
+function watchVideo(){
+if(validURL(mainVideo)){
+window.location.href=mainVideo;
+}
+}
+
+const params=new URLSearchParams(window.location.search);
+
+if(params.has("video")){
+
+let ad=params.get("ad") || "";
+let video=params.get("video") || "";
+
+if(validURL(video)){
+
+mainVideo=video;
+sponsor=validURL(ad)?ad:"";
+
+document.getElementById("builder").classList.add("hidden");
+document.getElementById("viewer").classList.remove("hidden");
+
+if(!sponsor){
+document.querySelector("#viewer button").style.display="none";
+}
+
+}
+}
+
+</script>
+
+</body>
+  </html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Video Link</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#090f1c;
+color:white;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:480px;
+background:#151e30;
+padding:28px;
+border-radius:20px;
+box-shadow:0 10px 40px #0008;
+}
+
+h1{text-align:center;color:#65a5ff}
+.subtitle{text-align:center;color:#aab5c8}
+
+label{display:block;margin:20px 0 8px}
+
+input{
+width:100%;
+padding:14px;
+border:1px solid #394761;
+border-radius:10px;
+background:#0b1424;
+color:white;
+outline:none;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:0;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+background:#3987ff;
+color:white;
+}
+
+.result{
+margin-top:20px;
+padding:15px;
+background:#0b1424;
+border-radius:10px;
+overflow-wrap:anywhere;
+display:none;
+}
+
+.secondary{
+background:#243650;
+}
+
+.hidden{display:none}
+
+.note{
+text-align:center;
+color:#9ba9bd;
+font-size:12px;
+margin-top:25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="builder">
+
+<h1>Smart Video Link</h1>
+<p class="subtitle">Create Your Custom Video Link</p>
+
+<label>Adsterra Direct Link</label>
+<input id="ad" type="url"
+placeholder="Paste your Ad Link">
+
+<label>Main Video Link</label>
+<input id="video" type="url"
+placeholder="Paste your Video Link">
+
+<button onclick="generate()">
+Generate Combined Link
+</button>
+
+<div class="result" id="result">
+<p>Your Combined Link:</p>
+<div id="output"></div>
+<button class="secondary" onclick="copyLink()">
+Copy Link
+</button>
+</div>
+
+</div>
+
+<div id="viewer" class="hidden">
+
+<h1>Your Video Is Ready!</h1>
+
+<p class="subtitle">
+Support this page by visiting our sponsor.
+</p>
+
+<button onclick="visitAd()">
+Visit Sponsor
+</button>
+
+<button class="secondary" onclick="watchVideo()">
+▶ WATCH VIDEO
+</button>
+
+<p class="note">
+Sponsored links are optional.
+</p>
+
+</div>
+
+<p class="note">Smart Video Link System</p>
+
+</div>
+
+<script>
+
+let mainVideo="";
+let sponsor="";
+
+function validURL(value){
+try{
+let u=new URL(value);
+return u.protocol==="https:" || u.protocol==="http:";
+}catch(e){
+return false;
+}
+}
+
+function generate(){
+
+let ad=document.getElementById("ad").value.trim();
+let video=document.getElementById("video").value.trim();
+
+if(!validURL(ad) || !validURL(video)){
+alert("Please enter two valid links.");
+return;
+}
+
+let link=new URL(window.location.href);
+link.searchParams.set("ad",ad);
+link.searchParams.set("video",video);
+
+document.getElementById("output").textContent=link.href;
+document.getElementById("result").style.display="block";
+
+}
+
+function copyLink(){
+navigator.clipboard.writeText(
+document.getElementById("output").textContent
+).then(()=>alert("Link Copied!"));
+}
+
+function visitAd(){
+if(validURL(sponsor)){
+window.open(sponsor,"_blank","noopener");
+}
+}
+
+function watchVideo(){
+if(validURL(mainVideo)){
+window.location.href=mainVideo;
+}
+}
+
+const params=new URLSearchParams(window.location.search);
+
+if(params.has("video")){
+
+let ad=params.get("ad") || "";
+let video=params.get("video") || "";
+
+if(validURL(video)){
+
+mainVideo=video;
+sponsor=validURL(ad)?ad:"";
+
+document.getElementById("builder").classList.add("hidden");
+document.getElementById("viewer").classList.remove("hidden");
+
+if(!sponsor){
+document.querySelector("#viewer button").style.display="none";
+}
+
+}
+}
+
+</script>
+
+</body>
+</html>
